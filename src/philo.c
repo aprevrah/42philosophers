@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:44:24 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/30 20:18:55 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/30 20:46:12 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void    monitor(t_philo_sim *ps)
     i = 0;
     while (ps->dead == 0)
     {
-
+        ps->p;
         i++;
     }
 }
