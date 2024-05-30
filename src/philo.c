@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:44:24 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/20 22:06:47 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/05/30 20:18:55 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,31 @@ unsigned long	gettime(struct timeval tv_start)
 	long			useconds;
 
 	gettimeofday(&tv_now, NULL);
-    seconds =tv_now.tv_sec - tv_start.tv_sec;
-    useconds = tv_now.tv_usec - tv_start.tv_usec;
-    return (seconds * 1000000 + useconds);
+	seconds = tv_now.tv_sec - tv_start.tv_sec;
+	useconds = tv_now.tv_usec - tv_start.tv_usec;
+	return (seconds * 1000000 + useconds);
+}
+
+void    take_silverware(t_philo *p)
+{
+    if (p->id % 2 == 0)
+    {
+		pthread_mutex_lock(p->fork_r);
+		printf("%lu %i has taken a fork\n", gettime(p->philo_sim->tv_start),
+			p->id);
+		pthread_mutex_lock(p->fork_l);
+		printf("%lu %i has taken a fork\n", gettime(p->philo_sim->tv_start),
+			p->id);
+    }
+    else
+    {
+		pthread_mutex_lock(p->fork_l);
+		printf("%lu %i has taken a fork\n", gettime(p->philo_sim->tv_start),
+			p->id);
+		pthread_mutex_lock(p->fork_r);
+		printf("%lu %i has taken a fork\n", gettime(p->philo_sim->tv_start),
+			p->id);
+    }
 }
 
 void	*thread_function(void *arg)
@@ -31,22 +53,30 @@ void	*thread_function(void *arg)
 	p = (t_philo *)arg;
 	while (!p->philo_sim->dead)
 	{
-		pthread_mutex_lock(p->fork_r);
-		printf("%lu %i has taken a fork\n", gettime(p->philo_sim->tv_start), p->id);
-		pthread_mutex_lock(p->fork_l);
-		printf("%lu %i has taken a fork\n", gettime(p->philo_sim->tv_start), p->id);
+        take_silverware(p);
 		printf("%lu %i is eating\n", gettime(p->philo_sim->tv_start), p->id);
 		usleep((useconds_t)p->philo_sim->time_to_eat);
 		if (pthread_mutex_unlock(p->fork_r) || pthread_mutex_unlock(p->fork_r))
-        {
-            perror("pthread_mutex_unlock");
-            p->philo_sim->dead = 1;
-        }
+		{
+			perror("pthread_mutex_unlock");
+			p->philo_sim->dead = 1;
+		}
 		printf("%lu %i is sleeping\n", gettime(p->philo_sim->tv_start), p->id);
 		usleep((useconds_t)p->philo_sim->time_to_sleep);
 		printf("%lu %i is thinking\n", gettime(p->philo_sim->tv_start), p->id);
 	}
 	return (NULL);
+}
+
+void    monitor(t_philo_sim *ps)
+{
+    int i;
+    i = 0;
+    while (ps->dead == 0)
+    {
+
+        i++;
+    }
 }
 
 int	init_philos(t_philo_sim *philo_sim, pthread_mutex_t *forks)
@@ -71,9 +101,10 @@ int	init_philos(t_philo_sim *philo_sim, pthread_mutex_t *forks)
 		if (pthread_create(&philos[i], NULL, thread_function,
 				(void *)&targs[i]) != 0)
 			printf("Thread initialization failed\n");
-		//printf("philo %i\n", i);
+		// printf("philo %i\n", i);
 		i++;
 	}
+    monitor(philo_sim);
 	i = 0;
 	while (i < philo_sim->number_of_philosophers)
 	{
