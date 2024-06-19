@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:44:24 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/06/10 17:43:18 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/06/19 21:44:01 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,17 @@ void	*thread_function(void *arg)
 	while (!p->philo_sim->dead)
 	{
 		take_silverware(p);
-		printf("%lu %i is eating\n", gettime(p->philo_sim->tv_start), p->id);
+		philo_says(*p, " is eating");
 		usleep((useconds_t)p->philo_sim->time_to_eat);
-		if (pthread_mutex_unlock(p->fork_r) || pthread_mutex_unlock(p->fork_r))
+        gettimeofday((struct timeval *)(&(p->last_meal)), NULL);
+		if (pthread_mutex_unlock(p->fork_r) || pthread_mutex_unlock(p->fork_l))
 		{
 			perror("pthread_mutex_unlock");
 			p->philo_sim->dead = 1;
 		}
-		printf("%lu %i is sleeping\n", gettime(p->philo_sim->tv_start), p->id);
+		philo_says(*p, " is sleeping");
 		usleep((useconds_t)p->philo_sim->time_to_sleep);
-		printf("%lu %i is thinking\n", gettime(p->philo_sim->tv_start), p->id);
+		philo_says(*p, " is thinking");
 	}
 	return (NULL);
 }
@@ -72,12 +73,22 @@ void	*thread_function(void *arg)
 void	monitor(t_philo_sim *philo_sim)
 {
 	int	i;
+    t_philo *philos;
 
-	i = 0;
+    philos = philo_sim->philos;
 	while (philo_sim->dead == 0)
 	{
-		philo_sim->p;
-		i++;
+        i = 0;
+		while (i < philo_sim->number_of_philosophers)
+        {
+            if ((long)gettime(philos[i].last_meal) > philo_sim->time_to_die)
+            {
+                philo_says(philos[i], " has died");
+                philo_sim->dead = 1;
+                break ;
+            }
+		    i++;
+        }
 	}
 }
 
@@ -106,7 +117,7 @@ int	init_philos(t_philo_sim *philo_sim, pthread_mutex_t *forks)
 		// printf("philo %i\n", i);
 		i++;
 	}
-	monitor(philo_sim);
+	//monitor(philo_sim);
 	i = 0;
 	while (i < philo_sim->number_of_philosophers)
 	{

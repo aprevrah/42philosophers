@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:44:24 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/20 21:32:17 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/06/19 21:42:16 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,3 +62,4 @@ int	main(int argc, char **argv)
 		philo_sim.number_of_times_each_philosopher_must_eat = ft_atoi(argv[5]);
 	setup(&philo_sim);
 }
+// no_philos, tt_die, tt_eat, tt_sleep, (max_eat)

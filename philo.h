@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:46:58 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/20 21:26:41 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/06/19 21:01:58 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 # include <sys/time.h> // gettimeofday()
 # include <unistd.h>   // usleep(), write()
 
+
+typedef struct s_philo t_philo;
+
 typedef struct s_philo_sim
 {
 	int				number_of_philosophers;
@@ -29,6 +32,7 @@ typedef struct s_philo_sim
 	int				number_of_times_each_philosopher_must_eat;
 	int				dead;
     struct timeval	tv_start;
+    t_philo         *philos;
 }					t_philo_sim;
 
 typedef struct s_philo
@@ -37,7 +41,8 @@ typedef struct s_philo
 	pthread_mutex_t	*fork_r;
 	pthread_mutex_t	*fork_l;
 	t_philo_sim		*philo_sim;
-	long			last_meal;
+    struct timeval	last_meal;
+    int             no_meals;
 }					t_philo;
 
 // utils/ft_atoi.c
