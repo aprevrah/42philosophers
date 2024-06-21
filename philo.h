@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:46:58 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/06/19 21:01:58 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/06/21 13:28:05 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_philo_sim
 typedef struct s_philo
 {
 	int				id;
+    pthread_t       thread;
 	pthread_mutex_t	*fork_r;
 	pthread_mutex_t	*fork_l;
 	t_philo_sim		*philo_sim;
