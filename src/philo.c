@@ -6,39 +6,11 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:44:24 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/06/21 15:14:53 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/06/24 18:30:50 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
-
-long long	timestamp(void)
-{
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
-}
-
-void	ft_usleep(int ms)
-{
-	long int	time;
-
-	time = timestamp();
-	while (timestamp() - time < ms)
-		usleep(ms / 10);
-}
-long long	gettime(struct timeval tv_start)
-{
-	struct timeval	tv_now;
-	long			seconds;
-	long			useconds;
-
-	gettimeofday(&tv_now, NULL);
-	seconds = tv_now.tv_sec - tv_start.tv_sec;
-	useconds = tv_now.tv_usec - tv_start.tv_usec;
-	return (seconds * 1000 + useconds / 1000);
-}
 
 void	philo_says(t_philo philo, char *msg)
 {
@@ -73,7 +45,7 @@ void	*thread_function(void *arg)
 		take_silverware(p);
 		gettimeofday(&p->last_meal, NULL);
 		philo_says(*p, " is eating");
-        p->no_meals++;
+		p->no_meals++;
 		ft_usleep((useconds_t)p->philo_sim->time_to_eat);
 		if (pthread_mutex_unlock(p->fork_r) || pthread_mutex_unlock(p->fork_l))
 		{
@@ -85,34 +57,6 @@ void	*thread_function(void *arg)
 		philo_says(*p, " is thinking");
 	}
 	return (NULL);
-}
-
-void	monitor(t_philo_sim *philo_sim)
-{
-	int		i;
-	t_philo	*philos;
-    int     full;
-
-	philos = philo_sim->philos;
-	while (philo_sim->dead == 0)
-	{
-		i = 0;
-        full = 0;
-		while (i < philo_sim->number_of_philosophers)
-		{
-			if ((long)gettime(philos[i].last_meal) > philo_sim->time_to_die)
-			{
-				philo_says(philos[i], " has died");
-				philo_sim->dead = 1;
-				break ;
-			}
-            if (philos[i].no_meals >= philo_sim->number_of_times_each_philosopher_must_eat)
-                full++;
-			i++;
-		}
-        if (full == philo_sim->number_of_philosophers)
-            philo_sim->dead = 1;
-	}
 }
 
 int	init_philos(t_philo_sim *philo_sim, pthread_mutex_t *forks)
@@ -127,10 +71,10 @@ int	init_philos(t_philo_sim *philo_sim, pthread_mutex_t *forks)
 	while (i < philo_sim->number_of_philosophers)
 	{
 		philos[i].id = i;
-        philos[i].philo_sim = philo_sim;
-        philos[i].no_meals = 0;
-        gettimeofday(&philos[i].last_meal, NULL);
-        // forks
+		philos[i].philo_sim = philo_sim;
+		philos[i].no_meals = 0;
+		gettimeofday(&philos[i].last_meal, NULL);
+		// forks
 		philos[i].fork_r = &forks[i];
 		if (i == philo_sim->number_of_philosophers - 1)
 			philos[i].fork_l = &forks[0];
@@ -148,10 +92,10 @@ int	init_philos(t_philo_sim *philo_sim, pthread_mutex_t *forks)
 	while (i < philo_sim->number_of_philosophers)
 	{
 		pthread_join(philos[i].thread, NULL);
-		printf("philo %i has ended\n", i);
+		// printf("philo %i has ended\n", i);
 		i++;
 	}
 	// pthread_exit(NULL);
-	printf("Philo sim Has Ended\n");
+	// printf("Philo sim Has Ended\n");
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:44:24 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/06/19 21:42:16 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/06/24 17:07:13 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ pthread_mutex_t	*init_silverware(t_philo_sim *philo_sim)
 	{
 		if (pthread_mutex_init(&(forks[i]), NULL) != 0)
 			printf("Mutex initialization failed\n");
-		printf("fork %i\n", i);
 		i++;
 	}
 	return (forks);
