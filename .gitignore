@@ -8,3 +8,7 @@
 # Executables
 *.out
 philo
+
+#Tests
+tester
+lazytester

@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:47:09 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/06/24 18:19:35 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/04 18:24:57 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	monitor(t_philo_sim *philo_sim)
 				full++;
 			i++;
 		}
-		if (full == philo_sim->number_of_philosophers)
+		if (full == philo_sim->number_of_philosophers && philo_sim->number_of_times_each_philosopher_must_eat >= 0)
 			philo_sim->dead = 1;
 	}
 }
