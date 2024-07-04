@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:46:58 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/06/24 18:26:14 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/04 22:24:21 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ typedef struct s_philo_sim
 	int					number_of_times_each_philosopher_must_eat;
 	int					dead;
 	struct timeval		tv_start;
-	pthread_mutex_t		write;
+	pthread_mutex_t		*start;
+	pthread_mutex_t		*write;
 	pthread_mutex_t		*forks;
 	t_philo				*philos;
 }						t_philo_sim;

@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:44:24 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/06/24 18:30:50 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/04 22:50:22 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 
 void	philo_says(t_philo philo, char *msg)
 {
+	printf("%i stuff\n", philo.philo_sim->number_of_philosophers);
+	pthread_mutex_lock(philo.philo_sim->write);
 	printf("%lld %i %s\n", gettime(philo.philo_sim->tv_start), philo.id, msg);
+	pthread_mutex_unlock(philo.philo_sim->write);
 }
 
 void	take_silverware(t_philo *p)
@@ -38,8 +41,13 @@ void	take_silverware(t_philo *p)
 void	*thread_function(void *arg)
 {
 	t_philo	*p;
-
+	int i;
+	
+	i = 0;
 	p = (t_philo *)arg;
+	while (pthread_mutex_trylock(p->philo_sim->start))
+		i++;
+	ft_usleep(100);
 	while (!p->philo_sim->dead)
 	{
 		take_silverware(p);
@@ -87,6 +95,7 @@ int	init_philos(t_philo_sim *philo_sim, pthread_mutex_t *forks)
 		i++;
 	}
 	philo_sim->philos = philos;
+	pthread_mutex_unlock(philo_sim->start);
 	monitor(philo_sim);
 	i = 0;
 	while (i < philo_sim->number_of_philosophers)
