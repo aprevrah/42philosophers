@@ -12,31 +12,68 @@
 
 #include "../philo.h"
 
-void	monitor(t_philo_sim *philo_sim)
+int	is_satiated(t_philo *p)
+{
+
+			pthread_mutex_lock(&p->lock);
+			if (p->philo_sim->number_of_times_each_philosopher_must_eat > 0 && p->no_meals >= p->philo_sim->number_of_times_each_philosopher_must_eat)
+			{
+				pthread_mutex_unlock(&p->lock);
+				return (1);
+			}
+			pthread_mutex_unlock(&p->lock);
+			return (0);
+}
+
+int	has_starved(t_philo *p)
+{
+
+			pthread_mutex_lock(&p->lock);
+
+			printf("%lld --- ", time_since(p->last_meal));
+			if (time_since(p->last_meal) > p->philo_sim->time_to_die)
+			{
+				printf("%lld --- ", time_since(p->last_meal));
+				philo_says(p, " has died");
+				pthread_mutex_lock(&p->philo_sim->write);
+				pthread_mutex_lock(&p->philo_sim->lock);
+				p->philo_sim->dead = 1;
+				pthread_mutex_unlock(&p->lock);
+				return (1);
+			}
+			pthread_mutex_unlock(&p->lock);
+			return (0);
+}
+
+int sim_should_end(t_philo_sim *ps)
 {
 	int		i;
-	t_philo	*philos;
 	int		full;
 
-	philos = philo_sim->philos;
-	while (philo_sim->dead == 0)
+	i = 0;
+	full = 0;
+	while (i < ps->number_of_philosophers)
 	{
-		i = 0;
-		full = 0;
-		while (i < philo_sim->number_of_philosophers)
-		{
-			// printf(" %lld -- \n", gettime(philos[i].last_meal));
-			if (gettime(philos[i].last_meal) > philo_sim->time_to_die)
-			{
-				philo_says(philos[i], " has died");
-				philo_sim->dead = 1;
-				break ;
-			}
-			if (philos[i].no_meals >= philo_sim->number_of_times_each_philosopher_must_eat)
+		// printf(" %lld -- \n", gettime(philos[i].last_meal));
+			if (has_starved(&ps->philos[i]))
+				return (1);
+			if (is_satiated(&ps->philos[i]))
 				full++;
 			i++;
+	}
+	if (full == ps->number_of_philosophers)
+		return (1);
+	return (0);
+}
+
+void	monitor(t_philo_sim *philo_sim)
+{
+	while (philo_sim->dead == 0)
+	{
+		if (sim_should_end(philo_sim))
+		{
+			pthread_mutex_unlock(&philo_sim->lock);
+			return ;
 		}
-		if (full == philo_sim->number_of_philosophers && philo_sim->number_of_times_each_philosopher_must_eat >= 0)
-			philo_sim->dead = 1;
 	}
 }

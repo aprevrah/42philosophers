@@ -29,7 +29,7 @@ void	ft_usleep(int ms)
 		usleep(ms / 10);
 }
 
-long long	gettime(struct timeval tv_start)
+long long	time_since(struct timeval tv_start)
 {
 	struct timeval	tv_now;
 	long			seconds;

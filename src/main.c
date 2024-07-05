@@ -11,7 +11,21 @@
 /* ************************************************************************** */
 
 #include "../philo.h"
+/* 
+exit(t_philo_sim *philo_sim)
+{
+	int	i;
 
+	i = 0;
+	while (i < philo_sim->number_of_philosophers)
+	{
+		pthread_mutex_destroy(&philo_sim->forks[i]);
+		pthread_mutex_destroy(&data->philos[i].lock);
+	}
+	pthread_mutex_destroy(&data->write);
+	pthread_mutex_destroy(&data->lock);
+}
+ */
 pthread_mutex_t	*init_silverware(t_philo_sim *philo_sim)
 {
 	int				i;
@@ -30,25 +44,12 @@ pthread_mutex_t	*init_silverware(t_philo_sim *philo_sim)
 	return (forks);
 }
 
-int	make_mutex(pthread_mutex_t *m)
-{
-	m = malloc(sizeof(pthread_mutex_t));
-	return (pthread_mutex_init(m, NULL));
-}
-
 int	setup(t_philo_sim *philo_sim)
 {
 	pthread_mutex_t	*forks;
 
 	philo_sim->dead = 0;
-	make_mutex(philo_sim->write);
-	make_mutex(philo_sim->start);
-	pthread_mutex_lock(philo_sim->start);
-	// print_philo_sim(*philo_sim);
-	//if (pthread_mutex_init(&(philo_sim->write), NULL) != 0)
-	// 	printf("Mutex initialization failed\n");
-	// if (pthread_mutex_init(&(philo_sim->start), NULL) != 0)
-	// 	printf("Mutex initialization failed\n");
+	pthread_mutex_lock(&philo_sim->start);
 	forks = init_silverware(philo_sim);
 	gettimeofday(&philo_sim->tv_start, NULL);
 	init_philos(philo_sim, forks);
@@ -59,6 +60,10 @@ int	parse_input(t_philo_sim *philo_sim, int argc, char **argv)
 {
 	if (argc < 5 || argc > 6)
 		return (printf("Wrong number of args\n"), 1);
+	pthread_mutex_init(&philo_sim->write, NULL);
+	pthread_mutex_init(&philo_sim->start, NULL);
+	pthread_mutex_init(&philo_sim->lock, NULL);
+	pthread_mutex_lock(&philo_sim->lock);
 	philo_sim->number_of_philosophers = ft_atoi(argv[1]);
 	philo_sim->time_to_die = ft_atoi(argv[2]);
 	philo_sim->time_to_eat = ft_atoi(argv[3]);
@@ -67,6 +72,7 @@ int	parse_input(t_philo_sim *philo_sim, int argc, char **argv)
 		philo_sim->number_of_times_each_philosopher_must_eat = ft_atoi(argv[5]);
 	else
 		philo_sim->number_of_times_each_philosopher_must_eat = -1;
+	pthread_mutex_unlock(&philo_sim->lock);
 	if (philo_sim->number_of_philosophers < 1
 		|| philo_sim->number_of_philosophers > 200)
 		return (printf("Min 1 philosophers, max 200 phlosophers\n"), 1);
