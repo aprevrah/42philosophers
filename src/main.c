@@ -6,26 +6,11 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:44:24 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/07/06 18:50:16 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/06 22:19:52 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
-/* 
-exit(t_philo_sim *philo_sim)
-{
-	int	i;
-
-	i = 0;
-	while (i < philo_sim->number_of_philosophers)
-	{
-		pthread_mutex_destroy(&philo_sim->forks[i]);
-		pthread_mutex_destroy(&data->philos[i].lock);
-	}
-	pthread_mutex_destroy(&data->write);
-	pthread_mutex_destroy(&data->lock);
-}
- */
 
 pthread_mutex_t	*init_silverware(t_philo_sim *philo_sim)
 {
@@ -55,8 +40,6 @@ int	setup(t_philo_sim *philo_sim)
 	return (0);
 }
 
-
-
 int	init_sim(t_philo_sim *philo_sim, int argc, char **argv)
 {
 	if (argc < 5 || argc > 6)
@@ -85,26 +68,26 @@ int	init_sim(t_philo_sim *philo_sim, int argc, char **argv)
 
 void	join_threads(t_philo_sim *philo_sim)
 {
-	int i;
+	int	i;
+
 	i = 0;
 	while (i < philo_sim->number_of_philosophers)
 	{
 		pthread_join(philo_sim->philos[i].thread, NULL);
-		printf("philo %i has joined\n", i);
+		//printf("philo %i has joined\n", i);
 		i++;
 	}
 }
 
 void	cleanup(t_philo_sim *ps)
 {
-	int i;
+	int	i;
 
 	pthread_mutex_destroy(&ps->write);
 	pthread_mutex_destroy(&ps->lock);
 	i = 0;
 	while (i < ps->number_of_philosophers)
 	{
-
 		pthread_mutex_destroy(&ps->philos[i].lock);
 		pthread_mutex_destroy(&(ps->forks)[i]);
 		i++;

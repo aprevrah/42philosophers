@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:47:09 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/07/06 19:08:52 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/06 23:44:42 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ int	has_starved(t_philo *p)
 	pthread_mutex_lock(&p->lock);
 	if (time_since(p->last_meal) > p->philo_sim->time_to_die)
 	{
-		printf("%lld --- ", time_since(p->last_meal));
-		philo_says(p, " has died");
+		philo_says(p, "died");
 		pthread_mutex_lock(&p->philo_sim->lock);
 		p->philo_sim->stop = 1;
 		pthread_mutex_unlock(&p->philo_sim->lock);
@@ -60,8 +59,9 @@ int	sim_should_end(t_philo_sim *ps)
 	}
 	if (full)
 	{
-		pthread_mutex_lock(&ps->write);
-		// pthread_mutex_lock(&ps->lock);
+		pthread_mutex_lock(&ps->lock);
+		ps->stop = 1;
+		pthread_mutex_unlock(&ps->lock);
 		return (1);
 	}
 	return (0);
