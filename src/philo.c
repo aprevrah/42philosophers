@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:44:24 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/07/06 23:59:08 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/07 00:07:04 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,22 @@ void	philo_says(t_philo *philo, char *msg)
 
 void	take_silverware(t_philo *p)
 {
-	//pthread_mutex_lock(p->fork_l);
-	//philo_says(p, "has taken a fork");
-	//pthread_mutex_lock(p->fork_r);
-	//philo_says(p, "has taken a fork");
+	// pthread_mutex_lock(p->fork_l);
+	// philo_says(p, "has taken a fork");
+	// pthread_mutex_lock(p->fork_r);
+	// philo_says(p, "has taken a fork");
 	if (p->id % 2 == 0)
-	{
-	 	pthread_mutex_lock(p->fork_r);
-	 	philo_says(p, "has taken a fork");
-		pthread_mutex_lock(p->fork_l);
-		philo_says(p, "has taken a fork");
-	}
-	else
 	{
 		pthread_mutex_lock(p->fork_l);
 		philo_says(p, "has taken a fork");
 		pthread_mutex_lock(p->fork_r);
+		philo_says(p, "has taken a fork");
+	}
+	else
+	{
+		pthread_mutex_lock(p->fork_r);
+		philo_says(p, "has taken a fork");
+		pthread_mutex_lock(p->fork_l);
 		philo_says(p, "has taken a fork");
 	}
 }
@@ -80,7 +80,7 @@ void	p_sleep(t_philo *p)
 
 void	p_think(t_philo *p)
 {
-	int think_ms;
+	int	think_ms;
 
 	philo_says(p, "is thinking");
 	if (p->philo_sim->number_of_philosophers % 2 == 0)

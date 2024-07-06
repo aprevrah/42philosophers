@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:57:27 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/07/06 21:01:41 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/07 00:10:25 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ long long	time_since(struct timeval tv_start)
 
 void	ft_usleep(int ms)
 {
-	struct timeval tv;
+	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
 	while (time_since(tv) < ms)

@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:46:58 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/07/06 19:05:38 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/07 00:10:29 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,6 @@ long long				timestamp(void);
 void					ft_usleep(int ms);
 long long				time_since(struct timeval tv_start);
 
-void	philo_says(t_philo *philo, char *msg);
+void					philo_says(t_philo *philo, char *msg);
 
 #endif

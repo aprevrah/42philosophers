@@ -6,14 +6,14 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:10:16 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/05/07 15:10:21 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/07 00:02:18 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 static int	ft_isspace(int c)
 {
-	if ((c == ' ') || (c == '\f') || (c == '\n')
-		|| (c == '\r') || (c == '\t') || (c == '\v'))
+	if ((c == ' ') || (c == '\f') || (c == '\n') || (c == '\r') || (c == '\t')
+		|| (c == '\v'))
 		return (1);
 	else
 		return (0);
@@ -36,9 +36,9 @@ static int	ft_to_int(char *str)
 
 int	ft_atoi(const char *nptr)
 {
-	char	*str;
-	int		s;
-	int		nbr;
+	char *str;
+	int s;
+	int nbr;
 
 	s = 1;
 	str = (char *)nptr;

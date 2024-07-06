@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:44:24 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/07/06 22:19:52 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/07 00:02:12 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	join_threads(t_philo_sim *philo_sim)
 	while (i < philo_sim->number_of_philosophers)
 	{
 		pthread_join(philo_sim->philos[i].thread, NULL);
-		//printf("philo %i has joined\n", i);
+		// printf("philo %i has joined\n", i);
 		i++;
 	}
 }
