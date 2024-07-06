@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:44:24 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/07/04 22:50:00 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/06 18:50:16 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ exit(t_philo_sim *philo_sim)
 	pthread_mutex_destroy(&data->lock);
 }
  */
+
 pthread_mutex_t	*init_silverware(t_philo_sim *philo_sim)
 {
 	int				i;
@@ -46,17 +47,17 @@ pthread_mutex_t	*init_silverware(t_philo_sim *philo_sim)
 
 int	setup(t_philo_sim *philo_sim)
 {
-	pthread_mutex_t	*forks;
-
-	philo_sim->dead = 0;
+	philo_sim->stop = 0;
 	pthread_mutex_lock(&philo_sim->start);
-	forks = init_silverware(philo_sim);
+	philo_sim->forks = init_silverware(philo_sim);
 	gettimeofday(&philo_sim->tv_start, NULL);
-	init_philos(philo_sim, forks);
+	init_philos(philo_sim);
 	return (0);
 }
 
-int	parse_input(t_philo_sim *philo_sim, int argc, char **argv)
+
+
+int	init_sim(t_philo_sim *philo_sim, int argc, char **argv)
 {
 	if (argc < 5 || argc > 6)
 		return (printf("Wrong number of args\n"), 1);
@@ -82,12 +83,47 @@ int	parse_input(t_philo_sim *philo_sim, int argc, char **argv)
 	return (0);
 }
 
+void	join_threads(t_philo_sim *philo_sim)
+{
+	int i;
+	i = 0;
+	while (i < philo_sim->number_of_philosophers)
+	{
+		pthread_join(philo_sim->philos[i].thread, NULL);
+		printf("philo %i has joined\n", i);
+		i++;
+	}
+}
+
+void	cleanup(t_philo_sim *ps)
+{
+	int i;
+
+	pthread_mutex_destroy(&ps->write);
+	pthread_mutex_destroy(&ps->lock);
+	i = 0;
+	while (i < ps->number_of_philosophers)
+	{
+
+		pthread_mutex_destroy(&ps->philos[i].lock);
+		pthread_mutex_destroy(&(ps->forks)[i]);
+		i++;
+	}
+	free(ps->forks);
+	free(ps->philos);
+}
+
 int	main(int argc, char **argv)
 {
 	t_philo_sim	philo_sim;
 
-	if (parse_input(&philo_sim, argc, argv))
+	if (init_sim(&philo_sim, argc, argv))
 		return (1);
 	setup(&philo_sim);
+	pthread_mutex_unlock(&philo_sim.start);
+	ft_usleep(100);
+	monitor(&philo_sim);
+	join_threads(&philo_sim);
+	cleanup(&philo_sim);
 }
 // no_philos, tt_die, tt_eat, tt_sleep, (max_eat)

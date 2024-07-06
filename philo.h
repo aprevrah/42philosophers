@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:46:58 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/07/04 22:24:21 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/06 19:05:38 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@
 # include <sys/time.h> // gettimeofday()
 # include <unistd.h>   // usleep(), write()
 
+# define ALIVE 0
+# define DEAD 1
+# define FULL 2
+
 typedef struct s_philo	t_philo;
 
 typedef struct s_philo_sim
@@ -29,8 +33,7 @@ typedef struct s_philo_sim
 	int					time_to_eat;
 	int					time_to_sleep;
 	int					number_of_times_each_philosopher_must_eat;
-	int					dead;
-	int					go;
+	int					stop;
 	struct timeval		tv_start;
 	pthread_mutex_t		lock;
 	pthread_mutex_t		start;
@@ -48,6 +51,7 @@ typedef struct s_philo
 	pthread_mutex_t		lock;
 	t_philo_sim			*philo_sim;
 	struct timeval		last_meal;
+	int					state;
 	int					no_meals;
 }						t_philo;
 
@@ -58,8 +62,8 @@ int						ft_atoi(const char *nptr);
 void					print_philo_sim(t_philo_sim philo_sim);
 
 // philo.c
-int						init_philos(t_philo_sim *philo_sim,
-							pthread_mutex_t *forks);
+int						init_philos(t_philo_sim *philo_sim);
+int						is_stop(t_philo_sim *ps);
 
 // monitor.c
 void					monitor(t_philo_sim *philo_sim);
