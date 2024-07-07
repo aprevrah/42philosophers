@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:44:24 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/07/07 00:07:04 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/07 14:26:54 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,65 +32,6 @@ void	philo_says(t_philo *philo, char *msg)
 	pthread_mutex_unlock(&philo->philo_sim->write);
 }
 
-void	take_silverware(t_philo *p)
-{
-	// pthread_mutex_lock(p->fork_l);
-	// philo_says(p, "has taken a fork");
-	// pthread_mutex_lock(p->fork_r);
-	// philo_says(p, "has taken a fork");
-	if (p->id % 2 == 0)
-	{
-		pthread_mutex_lock(p->fork_l);
-		philo_says(p, "has taken a fork");
-		pthread_mutex_lock(p->fork_r);
-		philo_says(p, "has taken a fork");
-	}
-	else
-	{
-		pthread_mutex_lock(p->fork_r);
-		philo_says(p, "has taken a fork");
-		pthread_mutex_lock(p->fork_l);
-		philo_says(p, "has taken a fork");
-	}
-}
-
-void	eat(t_philo *p)
-{
-	pthread_mutex_lock(&p->lock);
-	gettimeofday(&p->last_meal, NULL);
-	philo_says(p, "is eating");
-	pthread_mutex_unlock(&p->lock);
-	ft_usleep((useconds_t)p->philo_sim->time_to_eat);
-	pthread_mutex_lock(&p->lock);
-	p->no_meals++;
-	pthread_mutex_unlock(&p->lock);
-}
-
-void	drop_silverware(t_philo *p)
-{
-	if (pthread_mutex_unlock(p->fork_r) || pthread_mutex_unlock(p->fork_l))
-		philo_says(p, "BIIIG Error fork mutex not unlocked");
-}
-
-void	p_sleep(t_philo *p)
-{
-	philo_says(p, "is sleeping");
-	ft_usleep((useconds_t)p->philo_sim->time_to_sleep);
-}
-
-void	p_think(t_philo *p)
-{
-	int	think_ms;
-
-	philo_says(p, "is thinking");
-	if (p->philo_sim->number_of_philosophers % 2 == 0)
-		think_ms = 0;
-	else
-		think_ms = p->philo_sim->time_to_eat * 2 - p->philo_sim->time_to_sleep;
-	if (think_ms > 0)
-		ft_usleep(think_ms);
-}
-
 void	*thread_function(void *arg)
 {
 	t_philo	*p;
@@ -103,11 +44,11 @@ void	*thread_function(void *arg)
 		ft_usleep(p->philo_sim->time_to_eat / 4);
 	while (1)
 	{
-		take_silverware(p);
+		p_take_silverware(p);
 		if (is_stop(p->philo_sim))
-			return (drop_silverware(p), NULL);
-		eat(p);
-		drop_silverware(p);
+			return (p_drop_silverware(p), NULL);
+		p_eat(p);
+		p_drop_silverware(p);
 		if (is_stop(p->philo_sim))
 			return (NULL);
 		p_sleep(p);

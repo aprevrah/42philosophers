@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:47:09 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/07/07 00:10:56 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/07 14:29:46 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ int	sim_should_end(t_philo_sim *ps)
 	full = 1;
 	while (i < ps->number_of_philosophers)
 	{
-		// printf(" %lld -- \n", gettime(philos[i].last_meal));
 		if (has_starved(&ps->philos[i]))
 			return (1);
 		if (!is_satiated(&ps->philos[i]))
@@ -67,13 +66,13 @@ int	sim_should_end(t_philo_sim *ps)
 	return (0);
 }
 
+//To make valgrind work put usleep(1); in the loop
 void	monitor(t_philo_sim *philo_sim)
 {
 	while (!is_stop(philo_sim))
 	{
 		if (sim_should_end(philo_sim))
 		{
-			// pthread_mutex_unlock(&philo_sim->lock);
 			return ;
 		}
 	}

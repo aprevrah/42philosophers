@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:44:24 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/07/07 00:02:12 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/07 14:05:29 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	main(int argc, char **argv)
 		return (1);
 	setup(&philo_sim);
 	pthread_mutex_unlock(&philo_sim.start);
-	ft_usleep(100);
+	ft_usleep(10);
 	monitor(&philo_sim);
 	join_threads(&philo_sim);
 	cleanup(&philo_sim);

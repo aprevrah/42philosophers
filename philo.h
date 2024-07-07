@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:46:58 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/07/07 00:10:29 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/07 14:35:54 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,13 @@ int						is_stop(t_philo_sim *ps);
 
 // monitor.c
 void					monitor(t_philo_sim *philo_sim);
+
+// utils/philo_action.c
+void					p_take_silverware(t_philo *p);
+void					p_eat(t_philo *p);
+void					p_drop_silverware(t_philo *p);
+void					p_sleep(t_philo *p);
+void					p_think(t_philo *p);
 
 // utils/time.c
 long long				timestamp(void);
