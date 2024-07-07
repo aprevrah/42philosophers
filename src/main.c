@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:44:24 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/07/07 19:22:35 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/07 19:28:55 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	parse_input(t_philo_sim *philo_sim, int argc, char **argv)
 	{
 		philo_sim->number_of_times_each_philo_must_eat = ft_atoi(argv[5]);
 		if (philo_sim->number_of_times_each_philo_must_eat < 1)
-			return (printf("Positve integers only\n"), 1);
+			return (printf("Invalid input\n"), 1);
 	}
 	else
 		philo_sim->number_of_times_each_philo_must_eat = -1;
@@ -32,7 +32,7 @@ int	parse_input(t_philo_sim *philo_sim, int argc, char **argv)
 		return (printf("Min 1 philosophers, max 300 phlosophers\n"), 1);
 	if (philo_sim->time_to_die < 1 || philo_sim->time_to_eat < 1
 		|| philo_sim->time_to_sleep < 1)
-		return (printf("Positve integers only\n"), 1);
+		return (printf("Invalid input\n"), 1);
 	return (0);
 }
 
