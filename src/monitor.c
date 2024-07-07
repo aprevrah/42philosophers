@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:47:09 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/07/07 14:29:46 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/07 15:54:25 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 int	is_satiated(t_philo *p)
 {
 	pthread_mutex_lock(&p->lock);
-	if (p->philo_sim->number_of_times_each_philosopher_must_eat > 0
-		&& p->no_meals >= p->philo_sim->number_of_times_each_philosopher_must_eat)
+	if (p->philo_sim->number_of_times_each_philo_must_eat > 0
+		&& p->no_meals >= p->philo_sim->number_of_times_each_philo_must_eat)
 	{
 		pthread_mutex_unlock(&p->lock);
 		return (1);
@@ -48,7 +48,7 @@ int	sim_should_end(t_philo_sim *ps)
 
 	i = 0;
 	full = 1;
-	while (i < ps->number_of_philosophers)
+	while (i < ps->number_of_philos)
 	{
 		if (has_starved(&ps->philos[i]))
 			return (1);
@@ -66,11 +66,12 @@ int	sim_should_end(t_philo_sim *ps)
 	return (0);
 }
 
-//To make valgrind work put usleep(1); in the loop
+// To make valgrind work put usleep(1); in the loop
 void	monitor(t_philo_sim *philo_sim)
 {
 	while (!is_stop(philo_sim))
 	{
+		usleep(1);
 		if (sim_should_end(philo_sim))
 		{
 			return ;

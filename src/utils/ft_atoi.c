@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:10:16 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/07/07 00:02:18 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/07 15:34:22 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,16 @@ static int	ft_to_int(char *str)
 		nbr = nbr * 10 + (str[i] - '0');
 		i++;
 	}
+	if (str[i] != '\0')
+		return (0);
 	return (nbr);
 }
 
 int	ft_atoi(const char *nptr)
 {
-	char *str;
-	int s;
-	int nbr;
+	char	*str;
+	int		s;
+	int		nbr;
 
 	s = 1;
 	str = (char *)nptr;

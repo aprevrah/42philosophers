@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:44:24 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/07/07 14:26:54 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/07 16:19:17 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,21 +66,18 @@ int	init_philos(t_philo_sim *philo_sim)
 	pthread_mutex_t	*forks;
 
 	forks = philo_sim->forks;
-	philos = malloc(philo_sim->number_of_philosophers * sizeof(t_philo));
+	philos = malloc(philo_sim->number_of_philos * sizeof(t_philo));
 	if (!philos)
 		return (1);
 	i = 0;
-	while (i < philo_sim->number_of_philosophers)
+	while (i < philo_sim->number_of_philos)
 	{
 		pthread_mutex_init(&philos[i].lock, NULL);
 		philos[i].id = i + 1;
 		philos[i].philo_sim = philo_sim;
 		philos[i].no_meals = 0;
 		philos[i].fork_r = &forks[i];
-		if (i == philo_sim->number_of_philosophers - 1)
-			philos[i].fork_l = &forks[0];
-		else
-			philos[i].fork_l = &forks[i + 1];
+		philos[i].fork_l = &forks[(i + 1) % philo_sim->number_of_philos];
 		if (pthread_create(&philos[i].thread, NULL, thread_function,
 				(void *)&philos[i]) != 0)
 			printf("Thread initialization failed\n");
@@ -88,4 +85,16 @@ int	init_philos(t_philo_sim *philo_sim)
 	}
 	philo_sim->philos = philos;
 	return (0);
+}
+
+void	join_threads(t_philo_sim *philo_sim)
+{
+	int	i;
+
+	i = 0;
+	while (i < philo_sim->number_of_philos)
+	{
+		pthread_join(philo_sim->philos[i].thread, NULL);
+		i++;
+	}
 }
