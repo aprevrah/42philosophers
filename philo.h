@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:46:58 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/07/07 16:40:37 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/07 17:54:05 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int						ft_atoi(const char *nptr);
 int						init_philos(t_philo_sim *philo_sim);
 int						is_stop(t_philo_sim *ps);
 void					philo_says(t_philo *philo, char *msg);
-void					join_threads(t_philo_sim *philo_sim);
 
 // monitor.c
 void					monitor(t_philo_sim *philo_sim);
@@ -65,6 +64,7 @@ void					cleanup_all(t_philo_sim *ps);
 void					cleanup_forks(t_philo_sim *ps);
 void					cleanup_philos(t_philo_sim *ps);
 void					destroy_mutexs(t_philo_sim *ps);
+void					join_threads(t_philo_sim *philo_sim, int nbr_of_threads);
 
 // utils/philo_action.c
 void					p_take_silverware(t_philo *p);

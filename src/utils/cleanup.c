@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:57:27 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/07/07 16:46:13 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/07 17:54:22 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,16 @@ void	cleanup_all(t_philo_sim *ps)
 	destroy_mutexs(ps);
 	cleanup_forks(ps);
 	cleanup_philos(ps);
+}
+
+void	join_threads(t_philo_sim *philo_sim, int nbr_of_threads)
+{
+	int	i;
+
+	i = 0;
+	while (i < nbr_of_threads)
+	{
+		pthread_join(philo_sim->philos[i].thread, NULL);
+		i++;
+	}
 }

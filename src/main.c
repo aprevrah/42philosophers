@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:44:24 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/07/07 16:44:23 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/07 17:53:04 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,20 @@ int	parse_input(t_philo_sim *philo_sim, int argc, char **argv)
 	return (0);
 }
 
+void	mutex_err_silverware(pthread_mutex_t *forks, int nbr_of_mutexs)
+{
+	int	i;
+
+	printf("Fork mutex initialization failed\n");
+	i = 0;
+	while (i < nbr_of_mutexs)
+	{
+		pthread_mutex_destroy(&forks[i]);
+		i++;
+	}
+	free(forks);
+}
+
 pthread_mutex_t	*init_silverware(t_philo_sim *philo_sim)
 {
 	int				i;
@@ -48,7 +62,7 @@ pthread_mutex_t	*init_silverware(t_philo_sim *philo_sim)
 	while (i < philo_sim->number_of_philos)
 	{
 		if (pthread_mutex_init(&(forks[i]), NULL) != 0)
-			printf("Mutex initialization failed\n");
+			return (mutex_err_silverware(forks, i), NULL);
 		i++;
 	}
 	return (forks);
@@ -60,8 +74,11 @@ int	init_sim(t_philo_sim *philo_sim)
 	philo_sim->forks = init_silverware(philo_sim);
 	if (!philo_sim->forks)
 		return (1);
-	pthread_mutex_init(&philo_sim->write, NULL);
-	pthread_mutex_init(&philo_sim->lock, NULL);
+	if (pthread_mutex_init(&philo_sim->write, NULL) != 0)
+		return (cleanup_forks(philo_sim), 1);
+	if (pthread_mutex_init(&philo_sim->lock, NULL) != 0)
+		return (pthread_mutex_destroy(&philo_sim->write),
+			cleanup_forks(philo_sim), 1);
 	gettimeofday(&philo_sim->tv_start, NULL);
 	return (0);
 }
@@ -78,6 +95,6 @@ int	main(int argc, char **argv)
 		return (destroy_mutexs(&philo_sim), cleanup_forks(&philo_sim), 1);
 	ft_usleep(10);
 	monitor(&philo_sim);
-	join_threads(&philo_sim);
+	join_threads(&philo_sim, philo_sim.number_of_philos);
 	cleanup_all(&philo_sim);
 }

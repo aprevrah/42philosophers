@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:44:24 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/07/07 16:19:17 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/07 17:54:19 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,22 @@ void	*thread_function(void *arg)
 	return (NULL);
 }
 
+void	shutdown_sim(t_philo_sim *ps, int nbr_of_threads, int nbr_of_mutexs)
+{
+	int	i;
+
+	pthread_mutex_lock(&ps->lock);
+	ps->stop = 1;
+	pthread_mutex_unlock(&ps->lock);
+	join_threads(ps, nbr_of_threads);
+	i = 0;
+	while (i < nbr_of_mutexs)
+	{
+		pthread_mutex_destroy(&ps->philos[i].lock);
+		i++;
+	}
+}
+
 int	init_philos(t_philo_sim *philo_sim)
 {
 	int				i;
@@ -72,7 +88,8 @@ int	init_philos(t_philo_sim *philo_sim)
 	i = 0;
 	while (i < philo_sim->number_of_philos)
 	{
-		pthread_mutex_init(&philos[i].lock, NULL);
+		if (pthread_mutex_init(&philos[i].lock, NULL) != 0)
+			return (shutdown_sim(philo_sim, i, i), 1);
 		philos[i].id = i + 1;
 		philos[i].philo_sim = philo_sim;
 		philos[i].no_meals = 0;
@@ -80,21 +97,9 @@ int	init_philos(t_philo_sim *philo_sim)
 		philos[i].fork_l = &forks[(i + 1) % philo_sim->number_of_philos];
 		if (pthread_create(&philos[i].thread, NULL, thread_function,
 				(void *)&philos[i]) != 0)
-			printf("Thread initialization failed\n");
+			return (shutdown_sim(philo_sim, i, i + 1), 1);
 		i++;
 	}
 	philo_sim->philos = philos;
 	return (0);
-}
-
-void	join_threads(t_philo_sim *philo_sim)
-{
-	int	i;
-
-	i = 0;
-	while (i < philo_sim->number_of_philos)
-	{
-		pthread_join(philo_sim->philos[i].thread, NULL);
-		i++;
-	}
 }
