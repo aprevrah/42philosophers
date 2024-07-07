@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:57:27 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/07/07 14:33:45 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/07 19:22:35 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ long long	time_since(struct timeval tv_start)
 			* 1000 + tv_start.tv_usec / 1000));
 }
 
-void	ft_usleep(int ms)
+void	ft_sleep(int ms)
 {
 	struct timeval	tv;
 
@@ -30,7 +30,7 @@ void	ft_usleep(int ms)
 		usleep(ms);
 }
 
-// void	ft_usleep(int ms)
+// void	ft_sleep(int ms)
 // {
 // 	usleep(ms);
 // }

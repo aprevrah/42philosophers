@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 14:21:23 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/07/07 16:00:05 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/07 19:22:35 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	p_take_silverware(t_philo *p)
 	{
 		pthread_mutex_lock(p->fork_r);
 		philo_says(p, "has taken a fork");
-		ft_usleep(p->philo_sim->time_to_die + 2);
+		ft_sleep(p->philo_sim->time_to_die + 2);
 		return ;
 	}
 	if (p->id % 2 == 0)
@@ -43,7 +43,7 @@ void	p_eat(t_philo *p)
 	gettimeofday(&p->last_meal, NULL);
 	philo_says(p, "is eating");
 	pthread_mutex_unlock(&p->lock);
-	ft_usleep(p->philo_sim->time_to_eat);
+	ft_sleep(p->philo_sim->time_to_eat);
 	pthread_mutex_lock(&p->lock);
 	p->no_meals++;
 	pthread_mutex_unlock(&p->lock);
@@ -59,7 +59,7 @@ void	p_drop_silverware(t_philo *p)
 void	p_sleep(t_philo *p)
 {
 	philo_says(p, "is sleeping");
-	ft_usleep(p->philo_sim->time_to_sleep);
+	ft_sleep(p->philo_sim->time_to_sleep);
 }
 
 void	p_think(t_philo *p)
@@ -72,5 +72,5 @@ void	p_think(t_philo *p)
 	else
 		think_ms = p->philo_sim->time_to_eat * 2 - p->philo_sim->time_to_sleep;
 	if (think_ms > 0)
-		ft_usleep(think_ms);
+		ft_sleep(think_ms);
 }

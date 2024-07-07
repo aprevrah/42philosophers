@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:44:24 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/07/07 17:53:04 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/07 19:22:35 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	main(int argc, char **argv)
 		return (1);
 	if (init_philos(&philo_sim))
 		return (destroy_mutexs(&philo_sim), cleanup_forks(&philo_sim), 1);
-	ft_usleep(10);
+	ft_sleep(10);
 	monitor(&philo_sim);
 	join_threads(&philo_sim, philo_sim.number_of_philos);
 	cleanup_all(&philo_sim);

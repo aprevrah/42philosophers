@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:44:24 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/07/07 17:54:19 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/07 19:22:35 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	*thread_function(void *arg)
 	gettimeofday(&p->last_meal, NULL);
 	pthread_mutex_unlock(&p->lock);
 	if (p->id % 2 == 0)
-		ft_usleep(p->philo_sim->time_to_eat / 4);
+		ft_sleep(p->philo_sim->time_to_eat / 4);
 	while (1)
 	{
 		p_take_silverware(p);
@@ -66,6 +66,7 @@ void	shutdown_sim(t_philo_sim *ps, int nbr_of_threads, int nbr_of_mutexs)
 	pthread_mutex_lock(&ps->lock);
 	ps->stop = 1;
 	pthread_mutex_unlock(&ps->lock);
+	usleep(100);
 	join_threads(ps, nbr_of_threads);
 	i = 0;
 	while (i < nbr_of_mutexs)
@@ -73,33 +74,31 @@ void	shutdown_sim(t_philo_sim *ps, int nbr_of_threads, int nbr_of_mutexs)
 		pthread_mutex_destroy(&ps->philos[i].lock);
 		i++;
 	}
+	free(ps->philos);
 }
 
-int	init_philos(t_philo_sim *philo_sim)
+int	init_philos(t_philo_sim *ps)
 {
-	int				i;
-	t_philo			*philos;
-	pthread_mutex_t	*forks;
+	int	i;
 
-	forks = philo_sim->forks;
-	philos = malloc(philo_sim->number_of_philos * sizeof(t_philo));
-	if (!philos)
+	ps->philos = malloc(ps->number_of_philos * sizeof(t_philo));
+	if (!ps->philos)
 		return (1);
 	i = 0;
-	while (i < philo_sim->number_of_philos)
+	while (i < ps->number_of_philos)
 	{
-		if (pthread_mutex_init(&philos[i].lock, NULL) != 0)
-			return (shutdown_sim(philo_sim, i, i), 1);
-		philos[i].id = i + 1;
-		philos[i].philo_sim = philo_sim;
-		philos[i].no_meals = 0;
-		philos[i].fork_r = &forks[i];
-		philos[i].fork_l = &forks[(i + 1) % philo_sim->number_of_philos];
-		if (pthread_create(&philos[i].thread, NULL, thread_function,
-				(void *)&philos[i]) != 0)
-			return (shutdown_sim(philo_sim, i, i + 1), 1);
+		if (pthread_mutex_init(&ps->philos[i].lock, NULL) != 0)
+			return (shutdown_sim(ps, i, i), 1);
+		gettimeofday(&ps->philos[i].last_meal, NULL);
+		ps->philos[i].id = i + 1;
+		ps->philos[i].philo_sim = ps;
+		ps->philos[i].no_meals = 0;
+		ps->philos[i].fork_r = &ps->forks[i];
+		ps->philos[i].fork_l = &ps->forks[(i + 1) % ps->number_of_philos];
+		if (pthread_create(&ps->philos[i].thread, NULL,
+				thread_function, (void *)&ps->philos[i]) != 0)
+			return (shutdown_sim(ps, i, i + 1), 1);
 		i++;
 	}
-	philo_sim->philos = philos;
 	return (0);
 }

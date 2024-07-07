@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:47:09 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/07/07 18:09:31 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/07 19:18:47 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	monitor(t_philo_sim *philo_sim)
 {
 	while (!is_stop(philo_sim))
 	{
+		usleep(1);
 		if (sim_should_end(philo_sim))
 		{
 			return ;

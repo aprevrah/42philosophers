@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:46:58 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/07/07 18:17:51 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/07 19:22:35 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ void					cleanup_all(t_philo_sim *ps);
 void					cleanup_forks(t_philo_sim *ps);
 void					cleanup_philos(t_philo_sim *ps);
 void					destroy_mutexs(t_philo_sim *ps);
-void					join_threads(t_philo_sim *philo_sim, int nbr_of_threads);
+void					join_threads(t_philo_sim *philo_sim,
+							int nbr_of_threads);
 
 // utils/philo_action.c
 void					p_take_silverware(t_philo *p);
@@ -74,6 +75,6 @@ void					p_think(t_philo *p);
 
 // utils/time.c
 long long				time_since(struct timeval tv_start);
-void					ft_usleep(int ms);
+void					ft_sleep(int ms);
 
 #endif
