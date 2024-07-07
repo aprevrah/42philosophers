@@ -1,11 +1,17 @@
 CC=cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 RM = rm -rf
 
 SRC_DIR = src
 OBJ_DIR = obj
-SRCS = $(wildcard $(SRC_DIR)/*.c)
-SRCS += $(wildcard $(SRC_DIR)/utils/*.c)
+SRCS = src/main.c \
+src/monitor.c \
+src/philo.c \
+src/utils/cleanup.c \
+src/utils/ft_atoi.c \
+src/utils/philo_action.c \
+src/utils/time.c
+
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 
 NAME = philo

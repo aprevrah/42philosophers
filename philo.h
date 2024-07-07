@@ -6,14 +6,13 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:46:58 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/07/07 17:54:05 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/07 18:17:51 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 # include <pthread.h>  // POSIX threads
-# include <stdbool.h>  // booleans
 # include <stdio.h>    // printf()
 # include <stdlib.h>   // malloc(), free()
 # include <sys/time.h> // gettimeofday()
