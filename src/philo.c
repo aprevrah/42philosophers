@@ -44,17 +44,18 @@ void	*thread_function(void *arg)
 		ft_smart_sleep(p->philo_sim->time_to_eat / 2, p->philo_sim);
 	while (1)
 	{
-		p_take_silverware(p);
-		if (is_stop(p->philo_sim))
+		if (p_take_silverware(p))
 			return (p_drop_silverware(p), NULL);
-		p_eat(p);
-		p_drop_silverware(p);
-		if (is_stop(p->philo_sim))
-			return (NULL);
-		p_sleep(p);
-		if (is_stop(p->philo_sim))
-			return (NULL);
-		p_think(p);
+		if (p_eat(p))
+			return (p_drop_silverware(p), NULL);
+		if (p_drop_silverware(p))
+			break ;
+		if (p_sleep(p))
+			break ;
+		if (p_think(p))
+			break ;
+		if (p->philo_sim->number_of_times_each_philo_must_eat >= 0 && p->no_meals >= p->philo_sim->number_of_times_each_philo_must_eat)
+			break ;
 	}
 	return (NULL);
 }

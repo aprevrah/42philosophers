@@ -30,11 +30,13 @@ int	has_starved(t_philo *p)
 	pthread_mutex_lock(&p->lock);
 	if (time_since(p->last_meal) > p->philo_sim->time_to_die)
 	{
-		philo_says(p, "died");
 		pthread_mutex_lock(&p->philo_sim->lock);
 		p->philo_sim->stop = 1;
 		pthread_mutex_unlock(&p->philo_sim->lock);
 		pthread_mutex_unlock(&p->lock);
+		pthread_mutex_lock(&p->philo_sim->write);
+		printf("%lld %i died\n", time_since(p->philo_sim->tv_start), p->id);
+		pthread_mutex_unlock(&p->philo_sim->write);
 		return (1);
 	}
 	pthread_mutex_unlock(&p->lock);
