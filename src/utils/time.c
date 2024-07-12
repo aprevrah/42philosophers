@@ -21,13 +21,28 @@ long long	time_since(struct timeval tv_start)
 			* 1000 + tv_start.tv_usec / 1000));
 }
 
+void	ft_smart_sleep(int ms, t_philo_sim *ps)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	while (time_since(tv) < ms - 100)
+	{
+		if (is_stop(ps))
+			return ;
+		usleep(50000);
+	}	
+	while (time_since(tv) < ms)
+		usleep(10);
+}
+
 void	ft_sleep(int ms)
 {
 	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
 	while (time_since(tv) < ms)
-		usleep(ms);
+		usleep(10);
 }
 
 // void	ft_sleep(int ms)

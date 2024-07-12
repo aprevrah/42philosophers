@@ -75,6 +75,7 @@ void					p_think(t_philo *p);
 
 // utils/time.c
 long long				time_since(struct timeval tv_start);
+void					ft_smart_sleep(int ms, t_philo_sim *ps);
 void					ft_sleep(int ms);
 
 #endif

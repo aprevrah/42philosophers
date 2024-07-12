@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <limits.h>
+
 static int	ft_isspace(int c)
 {
 	if ((c == ' ') || (c == '\f') || (c == '\n') || (c == '\r') || (c == '\t')
@@ -28,12 +30,12 @@ static int	ft_to_int(char *str)
 	i = 0;
 	while ('0' <= str[i] && str[i] <= '9')
 	{
-		nbr = nbr * 10 + (str[i] - '0');
-		if (nbr < 0)
+		if(nbr > UINT_MAX / 10)
 			return (0);
+		nbr = nbr * 10 + (str[i] - '0');
 		i++;
 	}
-	if (str[i] != '\0')
+	if (str[i] != '\0' || nbr > INT_MAX)
 		return (0);
 	return (nbr);
 }

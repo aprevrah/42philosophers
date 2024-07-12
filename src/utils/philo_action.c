@@ -43,7 +43,7 @@ void	p_eat(t_philo *p)
 	gettimeofday(&p->last_meal, NULL);
 	philo_says(p, "is eating");
 	pthread_mutex_unlock(&p->lock);
-	ft_sleep(p->philo_sim->time_to_eat);
+	ft_smart_sleep(p->philo_sim->time_to_eat, p->philo_sim);
 	pthread_mutex_lock(&p->lock);
 	p->no_meals++;
 	pthread_mutex_unlock(&p->lock);
@@ -59,7 +59,7 @@ void	p_drop_silverware(t_philo *p)
 void	p_sleep(t_philo *p)
 {
 	philo_says(p, "is sleeping");
-	ft_sleep(p->philo_sim->time_to_sleep);
+	ft_smart_sleep(p->philo_sim->time_to_eat, p->philo_sim);
 }
 
 void	p_think(t_philo *p)
@@ -72,5 +72,5 @@ void	p_think(t_philo *p)
 	else
 		think_ms = p->philo_sim->time_to_eat * 2 - p->philo_sim->time_to_sleep;
 	if (think_ms > 0)
-		ft_sleep(think_ms);
+		ft_smart_sleep(p->philo_sim->time_to_eat, p->philo_sim);
 }

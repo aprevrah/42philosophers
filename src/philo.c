@@ -41,7 +41,7 @@ void	*thread_function(void *arg)
 	gettimeofday(&p->last_meal, NULL);
 	pthread_mutex_unlock(&p->lock);
 	if (p->id % 2 == 0)
-		ft_sleep(p->philo_sim->time_to_eat / 4);
+		ft_smart_sleep(p->philo_sim->time_to_eat / 2, p->philo_sim);
 	while (1)
 	{
 		p_take_silverware(p);
