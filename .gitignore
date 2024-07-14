@@ -7,7 +7,6 @@
 
 # Executables
 *.out
-philo
 
 #Tests
 tester
