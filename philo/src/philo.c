@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:44:24 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/07/14 14:16:08 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/14 14:38:18 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ void	*thread_function(void *arg)
 			break ;
 		if (p_think(p))
 			break ;
-		if (p->philo_sim->nbr_of_times_each_philo_must_eat >= 0
-			&& p->nbr_of_meals >= p->philo_sim->nbr_of_times_each_philo_must_eat)
+		if (p->philo_sim->nbr_of_times_each_philo_must_eat > 0
+			&& p->meals >= p->philo_sim->nbr_of_times_each_philo_must_eat)
 			break ;
 	}
 	return (NULL);
@@ -94,7 +94,7 @@ int	init_philos(t_philo_sim *ps)
 		gettimeofday(&ps->philos[i].last_meal, NULL);
 		ps->philos[i].id = i + 1;
 		ps->philos[i].philo_sim = ps;
-		ps->philos[i].nbr_of_meals = 0;
+		ps->philos[i].meals = 0;
 		ps->philos[i].fork_r = &ps->forks[i];
 		ps->philos[i].fork_l = &ps->forks[(i + 1) % ps->nbr_of_philos];
 		if (pthread_create(&ps->philos[i].thread, NULL,

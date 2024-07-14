@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 16:47:09 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/07/07 19:18:47 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/14 14:36:54 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	is_satiated(t_philo *p)
 {
 	pthread_mutex_lock(&p->lock);
 	if (p->philo_sim->nbr_of_times_each_philo_must_eat > 0
-		&& p->nbr_of_meals >= p->philo_sim->nbr_of_times_each_philo_must_eat)
+		&& p->meals >= p->philo_sim->nbr_of_times_each_philo_must_eat)
 	{
 		pthread_mutex_unlock(&p->lock);
 		return (1);

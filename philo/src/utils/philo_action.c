@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 14:21:23 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/07/14 14:17:22 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/14 14:36:54 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	p_eat(t_philo *p)
 	if (ft_smart_sleep(p->philo_sim->time_to_eat, p->philo_sim))
 		return (1);
 	pthread_mutex_lock(&p->lock);
-	p->nbr_of_meals++;
+	p->meals++;
 	pthread_mutex_unlock(&p->lock);
 	return (is_stop(p->philo_sim));
 }

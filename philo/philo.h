@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:46:58 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/07/07 19:22:35 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/14 14:36:54 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct s_philo_sim
 typedef struct s_philo
 {
 	int					id;
-	int					nbr_of_meals;
+	int					meals;
 	struct timeval		last_meal;
 	pthread_t			thread;
 	pthread_mutex_t		*fork_r;
