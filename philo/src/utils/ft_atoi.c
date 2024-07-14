@@ -24,18 +24,18 @@ static int	ft_isspace(int c)
 static int	ft_to_int(char *str)
 {
 	int				i;
-	unsigned int	nbr;
+	long			nbr;
 
 	nbr = 0;
 	i = 0;
 	while ('0' <= str[i] && str[i] <= '9')
 	{
-		if (nbr > UINT_MAX / 10)
-			return (0);
 		nbr = nbr * 10 + (str[i] - '0');
+		if (nbr > INT_MAX)
+			return (0);
 		i++;
 	}
-	if (str[i] != '\0' || nbr > INT_MAX)
+	if (str[i] != '\0')
 		return (0);
 	return (nbr);
 }
