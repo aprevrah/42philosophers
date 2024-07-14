@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:10:16 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/07/07 19:26:50 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/14 14:16:35 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	ft_to_int(char *str)
 	i = 0;
 	while ('0' <= str[i] && str[i] <= '9')
 	{
-		if(nbr > UINT_MAX / 10)
+		if (nbr > UINT_MAX / 10)
 			return (0);
 		nbr = nbr * 10 + (str[i] - '0');
 		i++;

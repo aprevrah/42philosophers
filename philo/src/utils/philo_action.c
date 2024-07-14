@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 14:21:23 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/07/07 19:22:35 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/14 14:17:22 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,5 @@ int	p_think(t_philo *p)
 		think_ms = p->philo_sim->time_to_eat * 2 - p->philo_sim->time_to_sleep;
 	if (think_ms > 0)
 		ft_smart_sleep(p->philo_sim->time_to_eat, p->philo_sim);
-	return (is_stop(p->philo_sim));	
+	return (is_stop(p->philo_sim));
 }

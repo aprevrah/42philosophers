@@ -6,7 +6,7 @@
 /*   By: aprevrha <aprevrha@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:44:24 by aprevrha          #+#    #+#             */
-/*   Updated: 2024/07/07 19:22:35 by aprevrha         ###   ########.fr       */
+/*   Updated: 2024/07/14 14:16:08 by aprevrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ void	*thread_function(void *arg)
 			break ;
 		if (p_think(p))
 			break ;
-		if (p->philo_sim->number_of_times_each_philo_must_eat >= 0 && p->no_meals >= p->philo_sim->number_of_times_each_philo_must_eat)
+		if (p->philo_sim->number_of_times_each_philo_must_eat >= 0
+			&& p->no_meals >= p->philo_sim->number_of_times_each_philo_must_eat)
 			break ;
 	}
 	return (NULL);
