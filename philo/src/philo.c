@@ -27,8 +27,8 @@ void	philo_says(t_philo *philo, char *msg)
 	if (is_stop(philo->philo_sim))
 		return ;
 	pthread_mutex_lock(&philo->philo_sim->write);
-	printf("%lld %i %s\n", time_since(philo->philo_sim->tv_start), philo->id,
-		msg);
+	printf("%lld %i %s\n", time_since(philo->philo_sim->tv_start,
+			philo->philo_sim), philo->id, msg);
 	pthread_mutex_unlock(&philo->philo_sim->write);
 }
 
@@ -37,9 +37,6 @@ void	*thread_function(void *arg)
 	t_philo	*p;
 
 	p = (t_philo *)arg;
-	pthread_mutex_lock(&p->lock);
-	gettimeofday(&p->last_meal, NULL);
-	pthread_mutex_unlock(&p->lock);
 	if (p->id % 2 == 0)
 		ft_smart_sleep(p->philo_sim->time_to_eat / 2, p->philo_sim);
 	while (1)
@@ -91,7 +88,8 @@ int	init_philos(t_philo_sim *ps)
 	{
 		if (pthread_mutex_init(&ps->philos[i].lock, NULL) != 0)
 			return (shutdown_sim(ps, i, i), 1);
-		gettimeofday(&ps->philos[i].last_meal, NULL);
+		if (gettimeofday(&ps->philos[i].last_meal, NULL) != 0)
+			return (shutdown_sim(ps, i, i + 1), 1);
 		ps->philos[i].id = i + 1;
 		ps->philos[i].philo_sim = ps;
 		ps->philos[i].meals = 0;

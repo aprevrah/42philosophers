@@ -11,12 +11,21 @@
 /* ************************************************************************** */
 
 #include "../../philo.h"
+#include <limits.h>
 
-long long	time_since(struct timeval tv_start)
+void	stop_sim(t_philo_sim *ps)
+{
+	pthread_mutex_lock(&ps->lock);
+	ps->stop = 1;
+	pthread_mutex_unlock(&ps->lock);
+}
+
+long long	time_since(struct timeval tv_start, t_philo_sim *ps)
 {
 	struct timeval	tv_now;
 
-	gettimeofday(&tv_now, NULL);
+	if (gettimeofday(&tv_now, NULL) != 0)
+		return (stop_sim(ps), LONG_MAX);
 	return ((tv_now.tv_sec * 1000 + tv_now.tv_usec / 1000) - (tv_start.tv_sec
 			* 1000 + tv_start.tv_usec / 1000));
 }
@@ -25,24 +34,29 @@ int	ft_smart_sleep(int ms, t_philo_sim *ps)
 {
 	struct timeval	tv;
 
-	gettimeofday(&tv, NULL);
-	while (time_since(tv) < ms - 100)
+	if (gettimeofday(&tv, NULL) != 0)
+		return (stop_sim(ps), 0);
+	while (time_since(tv, ps) < ms - 100)
 	{
 		if (is_stop(ps))
 			return (1);
 		usleep(50000);
 	}
-	while (time_since(tv) < ms)
+	while (time_since(tv, ps) < ms)
 		usleep(10);
 	return (0);
 }
 
-void	ft_sleep(int ms)
+void	ft_sleep(int ms, t_philo_sim *ps)
 {
 	struct timeval	tv;
 
-	gettimeofday(&tv, NULL);
-	while (time_since(tv) < ms)
+	if (gettimeofday(&tv, NULL) != 0)
+	{
+		stop_sim(ps);
+		return ;
+	}
+	while (time_since(tv, ps) < ms)
 		usleep(10);
 }
 

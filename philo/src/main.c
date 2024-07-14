@@ -79,7 +79,8 @@ int	init_sim(t_philo_sim *philo_sim)
 	if (pthread_mutex_init(&philo_sim->lock, NULL) != 0)
 		return (pthread_mutex_destroy(&philo_sim->write),
 			cleanup_forks(philo_sim), 1);
-	gettimeofday(&philo_sim->tv_start, NULL);
+	if (gettimeofday(&philo_sim->tv_start, NULL) != 0)
+		return (cleanup_forks(philo_sim), destroy_mutexs(philo_sim), 1);
 	return (0);
 }
 
@@ -93,7 +94,7 @@ int	main(int argc, char **argv)
 		return (1);
 	if (init_philos(&philo_sim))
 		return (destroy_mutexs(&philo_sim), cleanup_forks(&philo_sim), 1);
-	ft_sleep(10);
+	ft_sleep(10, &philo_sim);
 	monitor(&philo_sim);
 	join_threads(&philo_sim, philo_sim.nbr_of_philos);
 	cleanup_all(&philo_sim);

@@ -41,7 +41,8 @@ int	p_take_silverware(t_philo *p)
 int	p_eat(t_philo *p)
 {
 	pthread_mutex_lock(&p->lock);
-	gettimeofday(&p->last_meal, NULL);
+	if (gettimeofday(&p->last_meal, NULL) != 0)
+		stop_sim(p->philo_sim);
 	philo_says(p, "is eating");
 	pthread_mutex_unlock(&p->lock);
 	if (ft_smart_sleep(p->philo_sim->time_to_eat, p->philo_sim))

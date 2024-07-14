@@ -28,14 +28,13 @@ int	is_satiated(t_philo *p)
 int	has_starved(t_philo *p)
 {
 	pthread_mutex_lock(&p->lock);
-	if (time_since(p->last_meal) > p->philo_sim->time_to_die)
+	if (time_since(p->last_meal, p->philo_sim) > p->philo_sim->time_to_die)
 	{
-		pthread_mutex_lock(&p->philo_sim->lock);
-		p->philo_sim->stop = 1;
-		pthread_mutex_unlock(&p->philo_sim->lock);
+		stop_sim(p->philo_sim);
 		pthread_mutex_unlock(&p->lock);
 		pthread_mutex_lock(&p->philo_sim->write);
-		printf("%lld %i died\n", time_since(p->philo_sim->tv_start), p->id);
+		printf("%lld %i died\n",
+			time_since(p->philo_sim->tv_start, p->philo_sim), p->id);
 		pthread_mutex_unlock(&p->philo_sim->write);
 		return (1);
 	}
@@ -59,12 +58,7 @@ int	sim_should_end(t_philo_sim *ps)
 		i++;
 	}
 	if (full)
-	{
-		pthread_mutex_lock(&ps->lock);
-		ps->stop = 1;
-		pthread_mutex_unlock(&ps->lock);
-		return (1);
-	}
+		return (stop_sim(ps), 1);
 	return (0);
 }
 
