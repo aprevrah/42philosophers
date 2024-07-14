@@ -54,8 +54,8 @@ void	*thread_function(void *arg)
 			break ;
 		if (p_think(p))
 			break ;
-		if (p->philo_sim->number_of_times_each_philo_must_eat >= 0
-			&& p->no_meals >= p->philo_sim->number_of_times_each_philo_must_eat)
+		if (p->philo_sim->nbr_of_times_each_philo_must_eat >= 0
+			&& p->nbr_of_meals >= p->philo_sim->nbr_of_times_each_philo_must_eat)
 			break ;
 	}
 	return (NULL);
@@ -83,20 +83,20 @@ int	init_philos(t_philo_sim *ps)
 {
 	int	i;
 
-	ps->philos = malloc(ps->number_of_philos * sizeof(t_philo));
+	ps->philos = malloc(ps->nbr_of_philos * sizeof(t_philo));
 	if (!ps->philos)
 		return (1);
 	i = 0;
-	while (i < ps->number_of_philos)
+	while (i < ps->nbr_of_philos)
 	{
 		if (pthread_mutex_init(&ps->philos[i].lock, NULL) != 0)
 			return (shutdown_sim(ps, i, i), 1);
 		gettimeofday(&ps->philos[i].last_meal, NULL);
 		ps->philos[i].id = i + 1;
 		ps->philos[i].philo_sim = ps;
-		ps->philos[i].no_meals = 0;
+		ps->philos[i].nbr_of_meals = 0;
 		ps->philos[i].fork_r = &ps->forks[i];
-		ps->philos[i].fork_l = &ps->forks[(i + 1) % ps->number_of_philos];
+		ps->philos[i].fork_l = &ps->forks[(i + 1) % ps->nbr_of_philos];
 		if (pthread_create(&ps->philos[i].thread, NULL,
 				thread_function, (void *)&ps->philos[i]) != 0)
 			return (shutdown_sim(ps, i, i + 1), 1);

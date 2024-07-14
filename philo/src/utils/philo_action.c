@@ -47,7 +47,7 @@ int	p_eat(t_philo *p)
 	if (ft_smart_sleep(p->philo_sim->time_to_eat, p->philo_sim))
 		return (1);
 	pthread_mutex_lock(&p->lock);
-	p->no_meals++;
+	p->nbr_of_meals++;
 	pthread_mutex_unlock(&p->lock);
 	return (is_stop(p->philo_sim));
 }
@@ -73,7 +73,7 @@ int	p_think(t_philo *p)
 	int	think_ms;
 
 	philo_says(p, "is thinking");
-	if (p->philo_sim->number_of_philos % 2 == 0)
+	if (p->philo_sim->nbr_of_philos % 2 == 0)
 		think_ms = 0;
 	else
 		think_ms = p->philo_sim->time_to_eat * 2 - p->philo_sim->time_to_sleep;

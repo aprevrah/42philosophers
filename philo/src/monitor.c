@@ -15,8 +15,8 @@
 int	is_satiated(t_philo *p)
 {
 	pthread_mutex_lock(&p->lock);
-	if (p->philo_sim->number_of_times_each_philo_must_eat > 0
-		&& p->no_meals >= p->philo_sim->number_of_times_each_philo_must_eat)
+	if (p->philo_sim->nbr_of_times_each_philo_must_eat > 0
+		&& p->nbr_of_meals >= p->philo_sim->nbr_of_times_each_philo_must_eat)
 	{
 		pthread_mutex_unlock(&p->lock);
 		return (1);
@@ -50,7 +50,7 @@ int	sim_should_end(t_philo_sim *ps)
 
 	i = 0;
 	full = 1;
-	while (i < ps->number_of_philos)
+	while (i < ps->nbr_of_philos)
 	{
 		if (has_starved(&ps->philos[i]))
 			return (1);

@@ -17,7 +17,7 @@ void	cleanup_forks(t_philo_sim *ps)
 	int	i;
 
 	i = 0;
-	while (i < ps->number_of_philos)
+	while (i < ps->nbr_of_philos)
 	{
 		pthread_mutex_destroy(&(ps->forks)[i]);
 		i++;
@@ -30,7 +30,7 @@ void	cleanup_philos(t_philo_sim *ps)
 	int	i;
 
 	i = 0;
-	while (i < ps->number_of_philos)
+	while (i < ps->nbr_of_philos)
 	{
 		pthread_mutex_destroy(&ps->philos[i].lock);
 		i++;

@@ -22,11 +22,11 @@ typedef struct s_philo	t_philo;
 
 typedef struct s_philo_sim
 {
-	int					number_of_philos;
+	int					nbr_of_philos;
 	int					time_to_die;
 	int					time_to_eat;
 	int					time_to_sleep;
-	int					number_of_times_each_philo_must_eat;
+	int					nbr_of_times_each_philo_must_eat;
 	int					stop;
 	struct timeval		tv_start;
 	pthread_mutex_t		lock;
@@ -38,7 +38,7 @@ typedef struct s_philo_sim
 typedef struct s_philo
 {
 	int					id;
-	int					no_meals;
+	int					nbr_of_meals;
 	struct timeval		last_meal;
 	pthread_t			thread;
 	pthread_mutex_t		*fork_r;
